@@ -1,0 +1,14 @@
+stages:
+  - env setup
+  - unit test
+  - build
+  - test
+  - publish test Report
+  - deploy test application
+  - deploy to production
+  - email
+
+include:
+  - /tools/pipeline/gitlab-ci.test.yml
+  - /tools/pipeline/gitlab-ci.e2e.yml
+  - /tools/pipeline/gitlab-ci.production.yml

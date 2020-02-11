@@ -1,0 +1,95 @@
+.trigger-e2e: &trigger-e2e
+  only:
+    refs:
+      - release/acceptance
+  tags:
+    - virtualMachinetag
+
+set_build_version:
+  <<:trigger-e2e
+  stage: env setup
+    script:
+      - Command to run shell script for env setup
+
+unit_test_android:
+  <<:trigger-e2e
+  stage: unit test
+  before_script:
+    - command to launch emulator for android
+  script:
+    - command to run unit test
+  after_script:
+    - command to close the emulator
+
+unit_test_ios:
+  <<:trigger-e2e
+  stage: unit test
+  before_script:
+    - command to launch simulator for android
+  script:
+    - command to run unit test
+  after_script:
+    - command to close the simulator
+
+build_android_artifact:
+  <<:trigger-e2e
+  stage: build
+  artifacts:
+    paths:
+      - path to store apk file
+  script:
+    - Command to build apk file
+
+build_ios_artifact:
+  <<:trigger-e2e
+  stage: build
+  artifacts:
+    paths:
+      - path to store app file
+    script:
+      - Command to build app file
+
+test_ios_e2e:
+  <<:trigger-e2e
+  stage: test
+  artifacts:
+    paths:
+      - path to store the test report
+  before_script:
+    - command to launch Simulator
+  script:
+    - commant to run e2e test cases
+  after_script:
+    - command to close simulator after execution
+
+test_android_e2e:
+  <<:trigger-e2e
+  stage: test
+  artifacts:
+    paths:
+      - path to store the test report
+  before_script:
+    - command to launch emulator
+  script:
+    - commant to run e2e test case execution
+  after_script:
+    - command to close emulator after execution
+
+
+deploy_test_application:
+  <<:trigger-e2e
+  stage: deploy test application
+  script:
+    - Command to upload test application in cloud for manual test
+
+pages:
+  <<:trigger-e2e
+  stage: publish test report
+  script:
+    - command to publish Test Report
+
+email:
+  <<:trigger-e2e
+  stage: email
+  script:
+    - run shell script to send test reports

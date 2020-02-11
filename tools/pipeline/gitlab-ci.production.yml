@@ -1,0 +1,68 @@
+.trigger-production: &trigger-production
+  only:
+    refs:
+      - master
+  tags:
+    - virtualMachinetag
+
+set_build_version:
+  <<:trigger-production
+  stage: env setup
+    script:
+      - Command to run shell script for env setup
+
+unit_test_android:
+  <<:trigger-production
+  stage: unit test
+  before_script:
+    - command to launch emulator for android
+  script:
+    - command to run unit test
+  after_script:
+    - command to close the emulator
+
+unit_test_ios:
+  <<:trigger-production
+  stage: unit test
+  before_script:
+    - command to launch simulator for android
+  script:
+    - command to run unit test
+  after_script:
+    - command to close the simulator
+
+build_android_artifact:
+  <<:trigger-production
+  stage: build
+  artifacts:
+    paths:
+      - path to store apk file
+  script:
+    - Command to build apk file
+
+build_ios_artifact:
+  <<:trigger-production
+  stage: build
+  artifacts:
+    paths:
+      - path to store ipa file
+    script:
+      - Command to build app file
+
+deploy_application_platstore:
+  <<:trigger-production
+  stage: deploy to production
+  script:
+    - Command to upload application to playstore
+
+deploy_application_appstore:
+  <<:trigger-production
+  stage: deploy to production
+  script:
+    - Command to upload application to app store
+
+email:
+  <<:trigger-production
+  stage: email
+  script:
+    - run shell script to send email to stake holders for new release
